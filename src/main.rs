@@ -4,6 +4,16 @@ use std::{
     process::exit,
 };
 
+pub trait NumberProperties {
+    fn is_odd(&self) -> bool;
+}
+
+impl NumberProperties for i32 {
+    fn is_odd(&self) -> bool {
+        self & 1 == 1
+    }
+}
+
 fn main() {
     // println is a "macro" that outputs to the stdout
     println!("Hello, world!");
@@ -49,10 +59,11 @@ fn main() {
 }
 
 fn collatz(n: i32) -> i32 {
-    println!("{}",n);
+    println!("{}", n);
     match n {
         1 => return 1,
-        x if x & 1 == 1 => return collatz(3 * n + 1),
+        // using a trait to replace this if x & 1 == 1 => return collatz(3 * n + 1),
+        x if x.is_odd() => return collatz(3 * n + 1),
         _ => return collatz(n / 2),
     }
 }
